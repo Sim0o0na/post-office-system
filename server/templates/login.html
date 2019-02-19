@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Login</h1>
+    <form action="/users/login" method="post">
+        <input name="username" type="text">
+        <input name="password" type="text">
+        <input type="submit">
+    </form>
+{% endblock %}

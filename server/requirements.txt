@@ -1,0 +1,6 @@
+Flask
+flask_restplus
+Flask-MongoAlchemy
+flask-JWT
+flask_cors==3.0.7
+flask-login
