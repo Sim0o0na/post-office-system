@@ -1,0 +1,45 @@
+.user-form {
+    color: $main-gray-dark;
+    text-align: center;
+    padding: 0.5rem;
+    width: 40%;
+    background: #FAFAFA;
+    border: 1px solid $main-gray-light;
+    border-radius: 5px;
+  }
+  
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+  
+    & > * {
+      margin: 0.5rem;
+    }
+
+    label {
+        width: 70%;
+    }
+
+    input {
+      padding: 0.5rem;
+      width: 100%;
+      background-color: none;
+      border-radius: 5px;
+      border: 2px solid #DDDDDD;
+    }
+  
+    input[type=submit] {
+      padding: 0.5rem;    
+      width: auto;
+      border: 2px solid #DDDDDD;
+    }
+  
+    input[type=submit]:hover {
+      background: $main-orange-light;
+      border: 2px solid $main-orange-dark;
+      color: white;
+    }
+  }
