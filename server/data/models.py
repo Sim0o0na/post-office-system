@@ -11,8 +11,3 @@ class User(UserMixin, db.Document):
 
     def get_id(self):
         return str(self.mongo_id)
-
-    @staticmethod
-    def find_by_username(username):
-        return User.query.filter(User.username == username).first()
-

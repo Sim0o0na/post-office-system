@@ -1,15 +1,12 @@
 import hashlib
-from flask import Response, render_template, request, jsonify
-from flask_restplus import Namespace, Resource, reqparse
+from flask import Response, render_template, request
+from flask_restplus import Namespace, Resource
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import redirect
 from server.data.models import User
 
 api = Namespace('users', description='Users related operations')
 
-parser = reqparse.RequestParser()
-parser.add_argument('username', help = 'This field cannot be blank', required = True)
-parser.add_argument('password', help = 'This field cannot be blank', required = True)
 
 @api.route('/login')
 class Login(Resource):
@@ -19,14 +16,15 @@ class Login(Resource):
         return Response(render_template('login.html'), mimetype="text/html")
 
     def post(self):
-        data = parser.parse_args()
-        user = User.find_by_username(username=data['username'])
+        username = get_request_param_value(request.form, 'username')
+        password = get_request_param_value(request.form, 'password')
+        user = User.query.filter(User.username == username).first()
         if user:
-            hashed_input_pass = hash_pass(data['password'])
+            hashed_input_pass = hash_pass(password)
             if hashed_input_pass == user.hashed_password:
                 login_user(user)
-                return jsonify({'message': 'User logged in successfully!'})
-        return jsonify({'message': 'User does not exist!'}, 500)
+                return Response(render_template('home.html'), mimetype="text/html")
+        return Response(render_template('register.html'), mimetype="text/html")
 
 
 @api.route('/register')
@@ -36,22 +34,19 @@ class Register(Resource):
 
     @staticmethod
     def post():
-        data = parser.parse_args()
-        username = data['username']
-        password = data['password']
-        user = User.find_by_username(username)
+        username = get_request_param_value(request.form, 'username').strip()
+        password = get_request_param_value(request.form, 'password').strip()
+        user = User.query.filter(User.username == username).first()
         if user:
-            return jsonify({'message': f'User with username = {username} already exists!'}, 500)
+            return redirect('/users/register')
 
         if username and password:
             user = User()
             user.username = username
             user.hashed_password = hash_pass(password)
             user.save()
-            return jsonify({'message': f'User with username = {username} registered!'}, 200)
-        else:
-            return jsonify({'message': 'Please provide all information!'}, 500)
-
+            return redirect('/users/login')
+        return Response(render_template('register.html'), mimetype="text/html")
 
 @api.route("/logout")
 class Logout(Resource):

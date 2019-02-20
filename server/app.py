@@ -4,6 +4,7 @@ from server.config import settings
 from flask_cors import CORS
 from flask import Flask
 from flask_login import LoginManager
+from  import JWTManager
 
 from server.data.models import User
 
@@ -11,6 +12,7 @@ app = Flask(__name__, template_folder='templates')
 CORS(app)
 login_manager = LoginManager()
 login_manager.login_view = '/users/login'
+jwt = JWTManager(app)
 
 
 from server.api.api_config import api
