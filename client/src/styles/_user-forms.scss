@@ -42,4 +42,20 @@
       border: 2px solid $main-orange-dark;
       color: white;
     }
+
+    input.form-button-active[type=submit] {
+      background: $main-orange-light;
+      border: 2px solid $main-orange-dark;
+      color: white;
+    }
+
+    .error-form-group {
+      input {
+        border: 2px solid red;
+      }
+
+      p {
+        color: red;
+      }
+    }
   }

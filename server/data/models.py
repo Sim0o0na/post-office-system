@@ -8,6 +8,8 @@ class User(UserMixin, db.Document):
     username = db.StringField(required=True)
     username_index = Index().ascending('username').unique()
     hashed_password = db.StringField(required=True)
+    token = db.StringField()
+    refresh = db.StringField()
 
     def get_id(self):
         return str(self.mongo_id)

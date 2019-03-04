@@ -4,8 +4,7 @@ from server.config import settings
 from flask_cors import CORS
 from flask import Flask
 from flask_login import LoginManager
-from  import JWTManager
-
+from flask_jwt_extended import JWTManager
 from server.data.models import User
 
 app = Flask(__name__, template_folder='templates')
@@ -30,6 +29,7 @@ def configure_app(flask_app):
     flask_app.config['RESTPLUS_MASK_SWAGGER'] = settings.RESTPLUS_MASK_SWAGGER
     flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
     flask_app.config['JWT_SECRET_KEY'] = settings.JWT_SECRET
+    flask_app.config['JWT_ACCESS_TOKEN_EXPIRES'] = settings.JWT_ACCESS_TOKEN_EXPIRES
     flask_app.secret_key = settings.FLASK_APP_SECRET
 
 

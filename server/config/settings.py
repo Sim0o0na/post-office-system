@@ -1,3 +1,5 @@
+import datetime
+
 # Flask settings
 FLASK_SERVER_NAME = 'localhost:8888'
 FLASK_DEBUG = True  # Do not use debug mode in production
@@ -16,3 +18,4 @@ MONGOALCHEMY_SERVER_AUTH = False
 
 # JWT settings
 JWT_SECRET = 'very-secret-str'
+JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(days=1)
