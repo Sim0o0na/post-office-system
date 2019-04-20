@@ -1,8 +1,6 @@
 from flask import render_template, request, Response
 from flask_restplus import Resource, Namespace
 
-from flask_login import login_required
-
 api = Namespace('home', description='Home related operations')
 
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom';
+import { user_register_post }  from './../../globals';
+import Axios from 'axios';
 
 class RegisterForm extends Component {
     constructor (props) {
@@ -79,14 +81,15 @@ class RegisterForm extends Component {
         }
         const data = new FormData(e.target);
         let self = this
-        fetch('http://localhost:8888/users/register', {
-            method: 'POST',
-            body: data,
+        Axios.post(user_register_post, {
+            data: data,
         })
         .then(function(res){ return res.json(); })
         .then(function(data){ 
-            self.setState({ generalMsg: data.message});
-            self.props.history.push("/login");
+            self.setState({ generalMsg: data.message})
+            if (data.status === 200) {
+                self.props.history.push("/login");
+            }
         })
     }
 
@@ -96,22 +99,22 @@ class RegisterForm extends Component {
                 <h1>Register</h1>
                 <p>{this.state.generalMsg}</p>
                 <label htmlFor="username" className={this.state.username.isValid ? '' : 'error-form-group'}>
-                    <p>Username:</p>
+                    <p>*Username:</p>
                     <input onChange={this.onInputValueChange} type="text" name="username" required/>
                     <p>{this.state.username.message}</p>
                 </label>
                 <label htmlFor="password" className={this.state.password.isValid ? '' : 'error-form-group'}>
-                    <p>Password:</p>
+                    <p>*Password:</p>
                     <input type="password" onChange={this.onInputValueChange} name="password" required/>
                     <p>{this.state.password.message}</p>
                 </label>
                 <label htmlFor="confirmPassword" className={this.state.confirmPassword.isValid ? '' : 'error-form-group'} >
-                    <p>Confirm Password:</p>
+                    <p>*Confirm Password:</p>
                     <input type="password" onChange={this.onInputValueChange} name="confirmPassword" required/>
                     <p>{this.state.confirmPassword.message}</p>
                 </label>
                 <label htmlFor="email" className={this.state.email.isValid ? '' : 'error-form-group'}>
-                    <p>Email:</p>
+                    <p>*Email:</p>
                     <input type="email" onChange={this.onInputValueChange} name="email" required/>
                     <p>{this.state.email.message}</p>
                 </label>

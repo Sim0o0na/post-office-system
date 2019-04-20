@@ -12,7 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     
   
     & > * {
@@ -23,39 +22,48 @@
         width: 70%;
     }
 
-    input {
+    input, button {
       padding: 0.5rem;
       width: 100%;
       background-color: none;
       border-radius: 5px;
-      border: 2px solid #DDDDDD;
+      border: 1px solid #DDDDDD;
+    }
+
+    input:focus { 
+      outline: none;
+      border: 1px solid $main-orange-light;
     }
   
-    input[type=submit] {
+    input[type=submit], button {
       padding: 0.5rem;    
       width: auto;
-      border: 2px solid #DDDDDD;
+      border: 1px solid #DDDDDD;
     }
   
-    input[type=submit]:hover {
-      background: $main-orange-light;
-      border: 2px solid $main-orange-dark;
+    input[type=submit]:hover, button:hover {
+      background: $main-orange-dark;
+      border: 1px solid $main-orange-light;
       color: white;
     }
 
-    input.form-button-active[type=submit] {
+    input.form-button-active[type=submit], button.form-button-active {
       background: $main-orange-light;
-      border: 2px solid $main-orange-dark;
+      border: 1px solid $main-orange-dark;
       color: white;
     }
 
     .error-form-group {
       input {
-        border: 2px solid red;
+        border: 1px solid #ff7676;
       }
 
       p {
-        color: red;
+        color: #ff7676;
       }
     }
+  }
+  
+  .user-form {
+    flex-direction: column;
   }

@@ -1,3 +1,4 @@
+from server.data import models
 from server.data.db_config import db
 from server.config import settings
 
@@ -5,6 +6,7 @@ from flask_cors import CORS
 from flask import Flask
 from flask_login import LoginManager
 from flask_jwt_extended import JWTManager
+
 from server.data.models import User
 
 app = Flask(__name__, template_folder='templates')
@@ -13,12 +15,19 @@ login_manager = LoginManager()
 login_manager.login_view = '/users/login'
 jwt = JWTManager(app)
 
-
 from server.api.api_config import api
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return models.RevokedTokenModel.is_jti_blacklisted(jti)
+
 
 def configure_app(flask_app):
     flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
@@ -30,8 +39,9 @@ def configure_app(flask_app):
     flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
     flask_app.config['JWT_SECRET_KEY'] = settings.JWT_SECRET
     flask_app.config['JWT_ACCESS_TOKEN_EXPIRES'] = settings.JWT_ACCESS_TOKEN_EXPIRES
+    flask_app.config['JWT_BLACKLIST_ENABLED'] = True
+    flask_app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
     flask_app.secret_key = settings.FLASK_APP_SECRET
-
 
 def initialize_app(flask_app):
     configure_app(flask_app)
